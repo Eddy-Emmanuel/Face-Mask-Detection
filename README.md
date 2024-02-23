@@ -3,7 +3,7 @@
 ## Overview:
 Thrilled to share that I've led the development of a Face Mask Detection system using cutting-edge computer vision and deep learning techniques. The primary goal was to enhance public health and safety through accurate and real-time mask detection.
 
-🛠️ **Tech Stack***:
+🛠️ **Tech Stack**:
 Leveraged Python with OpenCV, NumPy, and pandas for data manipulation. Employed TensorFlow and Keras for deep learning, incorporating transfer learning from pre-trained models like MobileNetV2 and VGG19. Kaggle's collaborative platform facilitated seamless dataset access and development.
 
 📊 **Data Insights**:
