@@ -1,6 +1,6 @@
 🚀 Exciting News! Successfully Developed Face Mask Detection System
 
-🔍 ## Overview:
+## Overview:
 Thrilled to share that I've led the development of a Face Mask Detection system using cutting-edge computer vision and deep learning techniques. The primary goal was to enhance public health and safety through accurate and real-time mask detection.
 
 🛠️ **Tech Stack***:
