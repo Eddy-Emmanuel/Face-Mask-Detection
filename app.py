@@ -81,8 +81,11 @@ options = st.sidebar.selectbox(label="Select Operation", options=["None", "Live 
 
 if options != "None":
     if options == "Live Test":
-        Run_Live_Test(source=0)
-
+       try:
+           Run_Live_Test(source=0)
+       except:
+           st.warning("Couldn't access your camera")
+         
     if options == "HeadShot Test":
         picture = st.file_uploader("Upload Picture", ["png ", "jpg"], accept_multiple_files=False)
         if picture is not None:
