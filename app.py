@@ -22,7 +22,7 @@ def Run_Live_Test(source):
     if cam is not None:
         while loop:
             frame = imutils.resize(cam.read(), width=1000, height=1000) # Step 4
-            h, w, _ = frame.shape # Step 5
+            (h, w) = frame.shape[:2] # Step 5
             blob = cv2.dnn.blobFromImage(frame, scalefactor=1.0, size=(300, 300), mean=(104, 177, 123)) # # Step 6
             face_detector.setInput(blob=blob) # Step 7
             detected_faces = face_detector.forward() # Step 8 -> Detect Faces
