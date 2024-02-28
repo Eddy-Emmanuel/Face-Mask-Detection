@@ -6,4 +6,4 @@ keras==2.15.0
 pillow==10.2.0
 imutils==0.5.4
 streamlit==1.31.1
-opencv-python-headless
+opencv-python-headless==4.5.3.56
