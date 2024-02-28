@@ -1,4 +1,3 @@
-#import cv2
 import imutils
 import numpy as np
 from PIL import Image
@@ -7,10 +6,7 @@ from keras.models import load_model
 from keras.applications import mobilenet_v2
 from keras.preprocessing.image import img_to_array
 from imutils.video import VideoStream, FileVideoStream
-
-import os
-os.system("sudo apt-get update")
-os.system("sudo apt-get install -y libgl1-mesa-glx")
+import cv2
 
 classifier = load_model("classifier\mobilenetv2.h5") # Step 1
 face_detector = cv2.dnn.readNet(model=r"face_detector_model\deploy.prototxt",
