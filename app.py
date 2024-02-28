@@ -8,7 +8,7 @@ from keras.applications import mobilenet_v2
 from keras.preprocessing.image import img_to_array
 from imutils.video import VideoStream, FileVideoStream
 
-classifier = load_model(r"classifier\mobilenetv2.h5") # Step 1
+classifier = load_model(r"mobilenetv2.h5") # Step 1
 face_detector = cv2.dnn.readNet(model=r"face_detector_model\deploy.prototxt",
                                 config=r"face_detector_model\res10_300x300_ssd_iter_140000.caffemodel") # Step 2
 
