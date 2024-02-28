@@ -14,21 +14,10 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
 
 def Run_Live_Test(source):
     loop = True
-    if source != 0:
-        try:
-           cam = VideoStream(src=source).start() # Step 3
-        except Exception as e:
-           st.error(f"Error initializing camera: {e}")
-    else:
-        try:
-           cam = FileVideoStream(path=source).start()
-        except Exception as e:
-           st.error(f"Error initializing camera: {e}")
-        
-
+    cam = VideoStream(src=source).start() # Step 3
     if cam is not None:
         while loop:
-            frame = imutils.resize(cam.read(), width=1000, height=1000) # Step 4
+            frame = imutils.resize(cam.read(), width=100, height=100) # Step 4
             h, w, _ = frame.shape # Step 5
             blob = cv2.dnn.blobFromImage(frame, scalefactor=1.0, size=(300, 300), mean=(104, 177, 123)) # # Step 6
             face_detector.setInput(blob=blob) # Step 7
