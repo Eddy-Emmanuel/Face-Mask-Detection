@@ -14,7 +14,7 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
 RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 class VideoDisplay(VideoTransformerBase):
-      def CALLBACK(self, cam) ->:
+      def CALLBACK(self, cam):
           frame = cam.to_ndarray(format="bgr24")
       
           h, w, _ = frame.shape
