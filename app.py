@@ -82,28 +82,28 @@ def main():
             face_detector.setInput(blob=Blob)
             detected_faces = face_detector.forward()
                     
-                for i in range(detected_faces.shape[2]):
-                    confidence = detected_faces[0, 0, i, 2]
-                    if confidence > 0.5:
-                      x1, y1, x2, y2 = detected_faces[0, 0, i, 3:7]
-                      startx, endx = int(x1*w), int(x2*w)
-                      starty, endy = int(y1*h), int(y2*h)
+            for i in range(detected_faces.shape[2]):
+                confidence = detected_faces[0, 0, i, 2]
+                if confidence > 0.5:
+                    x1, y1, x2, y2 = detected_faces[0, 0, i, 3:7]
+                    startx, endx = int(x1*w), int(x2*w)
+                    starty, endy = int(y1*h), int(y2*h)
       
-                      startx, endx = max(0, startx), min(w-1, endx)
-                      starty, endy = max(0, starty), min(h-1, endy)
-        
-                      frame = image[starty:endy, startx:endx] 
-                      rgb_face = cv2.cvtColor(frame, cv2.COLOR_RGBA2RGB)
-                      prep_face = mobilenet_v2.preprocess_input(cv2.resize(rgb_face, (224, 224)))
+                    startx, endx = max(0, startx), min(w-1, endx)
+                    starty, endy = max(0, starty), min(h-1, endy)
+    
+                    frame = image[starty:endy, startx:endx] 
+                    rgb_face = cv2.cvtColor(frame, cv2.COLOR_RGBA2RGB)
+                    prep_face = mobilenet_v2.preprocess_input(cv2.resize(rgb_face, (224, 224)))
                                 
-                      with_facemask, without_facemask = classifier.predict(np.expand_dims(prep_face, axis=0))[0]
-                      color = (0, 0, 255) if without_facemask > with_facemask else (0, 255, 0)
-                      predicted_class = "Facemask on" if with_facemask > without_facemask else "Facemask off"
+                    with_facemask, without_facemask = classifier.predict(np.expand_dims(prep_face, axis=0))[0]
+                    color = (0, 0, 255) if without_facemask > with_facemask else (0, 255, 0)
+                    predicted_class = "Facemask on" if with_facemask > without_facemask else "Facemask off"
         
-                      cv2.rectangle(image, (startx, starty), (endx, endy), color, 2)
-                      cv2.putText(image, f"{predicted_class}", (startx, starty-40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
+                    cv2.rectangle(image, (startx, starty), (endx, endy), color, 2)
+                    cv2.putText(image, f"{predicted_class}", (startx, starty-40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
                     
-                st.image(image=image, caption="Output")
+            st.image(image=image, caption="Output")
 
 
 if __name__ == "__main__":
