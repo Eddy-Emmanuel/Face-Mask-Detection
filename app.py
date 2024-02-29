@@ -14,7 +14,9 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
 
 
 def CALLBACK(cam:av.VideoFrame)-> av.VideoFrame:
+  
     frame = cam.to_ndarray(format="bgr24")
+  
     while True:
         h, w, _ = frame.shape # Step 5
         blob = cv2.dnn.blobFromImage(frame, scalefactor=1.0, size=(300, 300), mean=(104, 177, 123)) # # Step 6
