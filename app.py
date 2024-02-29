@@ -63,24 +63,24 @@ def main():
 
     
   
-        if options == "HeadShot Test":
-          picture = st.file_uploader("Upload Picture", ["png ", "jpg"], accept_multiple_files=False)
-          if picture is not None:
-                image = Image.open(picture)
-                converted_image_to_array = cv2.resize(cv2.cvtColor(img_to_array(image), cv2.COLOR_RGBA2RGB), (224, 224))
-                preprocessed_image = mobilenet_v2.preprocess_input(converted_image_to_array)
-                predictions = classifier.predict(np.expand_dims(preprocessed_image, axis=0))
-                st.markdown(f"Prediction: {'FaceMask On' if predictions[0][0] > predictions[0][1] else 'FaceMask Off'}")
-                st.image(image=image, caption="Model Ouput")
+    if options == "HeadShot Test":
+        picture = st.file_uploader("Upload Picture", ["png ", "jpg"], accept_multiple_files=False)
+        if picture is not None:
+            image = Image.open(picture)
+            converted_image_to_array = cv2.resize(cv2.cvtColor(img_to_array(image), cv2.COLOR_RGBA2RGB), (224, 224))
+            preprocessed_image = mobilenet_v2.preprocess_input(converted_image_to_array)
+            predictions = classifier.predict(np.expand_dims(preprocessed_image, axis=0))
+            st.markdown(f"Prediction: {'FaceMask On' if predictions[0][0] > predictions[0][1] else 'FaceMask Off'}")
+            st.image(image=image, caption="Model Ouput")
         
-        if options == "Full Body Pics Test":
-              picture = st.file_uploader("Upload Picture", ["png ", "jpg"], accept_multiple_files=False)
-              if picture is not None:
-                image = cv2.cvtColor(cv2.imdecode(np.frombuffer(picture.read(), np.uint8), 1), cv2.COLOR_BGR2RGB)
-                h, w, _ = image.shape
-                Blob = cv2.dnn.blobFromImage(cv2.cvtColor(image, cv2.COLOR_RGBA2RGB), scalefactor=1.3, size=(300, 300), mean=(104, 177, 123))
-                face_detector.setInput(blob=Blob)
-                detected_faces = face_detector.forward()
+    if options == "Full Body Pics Test":
+        picture = st.file_uploader("Upload Picture", ["png ", "jpg"], accept_multiple_files=False)
+        if picture is not None:
+            image = cv2.cvtColor(cv2.imdecode(np.frombuffer(picture.read(), np.uint8), 1), cv2.COLOR_BGR2RGB)
+            h, w, _ = image.shape
+            Blob = cv2.dnn.blobFromImage(cv2.cvtColor(image, cv2.COLOR_RGBA2RGB), scalefactor=1.3, size=(300, 300), mean=(104, 177, 123))
+            face_detector.setInput(blob=Blob)
+            detected_faces = face_detector.forward()
                     
                 for i in range(detected_faces.shape[2]):
                     confidence = detected_faces[0, 0, i, 2]
@@ -105,70 +105,6 @@ def main():
                     
                 st.image(image=image, caption="Output")
 
-# import av
-# import cv2
-# import time
-# import streamlit as st 
-# from pyzbar.pyzbar import decode
-# from streamlit_webrtc import (webrtc_streamer, VideoProcessorBase,WebRtcMode)
-
-# st.set_page_config(layout="wide")
-
-# def live_detection(play_state):
-
-#    c1, c2 = st.columns(2)
-#    class BarcodeProcessor(VideoProcessorBase):
-
-#       def __init__(self) -> None:
-#          self.barcode_val = False
-      
-#       def BarcodeReader(self, image):
-#          detectedBarcodes = decode(image)
-#          if not detectedBarcodes:
-#             print("\n No barcode! \n")
-#             return image, False
-
-#          else:
-#             for barcode in detectedBarcodes: 
-#                (x, y, w, h) = barcode.rect
-#                cv2.rectangle(image, (x-10, y-10),
-#                               (x + w+10, y + h+10),
-#                               (0, 255, 0), 2)
-
-#             if detectedBarcodes[0] != "":
-#                return image, detectedBarcodes[0]
-
-
-#       def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
-#          image = frame.to_ndarray(format="bgr24")
-
-#          annotated_image, result = self.BarcodeReader(image)
-
-#          if result == False:
-#             return av.VideoFrame.from_ndarray(annotated_image, format="bgr24")
-#          else:
-#             self.barcode_val = result[0]
-#             return av.VideoFrame.from_ndarray(annotated_image, format="bgr24")
-
-#    stream = webrtc_streamer(
-#          key="barcode-detection",
-#          mode=WebRtcMode.SENDRECV,
-#          desired_playing_state=play_state,
-#          video_processor_factory=BarcodeProcessor,
-#          media_stream_constraints={"video": True, "audio": False},
-#          async_processing=True,
-#       )
-
-#    while True:
-#       if stream.video_processor.barcode_val != False:
-#          barcode = stream.video_processor.barcode_val
-#          print("FOUND")
-#          c1.subheader(barcode)
-#          del stream
-
-# play_state = True
-
-# possible_barcode = live_detection(play_state)
 
 if __name__ == "__main__":
   main()
