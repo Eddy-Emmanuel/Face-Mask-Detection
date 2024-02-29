@@ -5,7 +5,7 @@ import streamlit as st
 from keras.models import load_model
 from keras.applications import mobilenet_v2
 from keras.preprocessing.image import img_to_array
-from streamlit_webrtc import webrtc_streamer,  VideoTransformerBase
+from streamlit_webrtc import webrtc_streamer,  VideoTransformerBase, RTCConfiguration, WebRtcMode
 
 classifier = load_model("mobilenetv2.h5") # Step 1
 face_detector = cv2.dnn.readNet(model="deploy.prototxt",
@@ -53,7 +53,8 @@ options = st.sidebar.selectbox(label="Select Operation", options=["None", "Live 
 def main():
   if options != "None":
       if options == "Live Test":
-          webrtc_streamer(key="sample", video_transformer_factory=VideoDisplay)
+          webrtc_streamer(key="sample", mode=WebRtcMode.SENDRECV, rtc_configuration=RTC_CONFIGURATION,
+                        video_processor_factory=VideoDisplay)
     
   
       if options == "HeadShot Test":
