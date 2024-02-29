@@ -49,6 +49,7 @@ st.markdown("<h1><center>Face Mask Detection 😎<center/><h1/>", unsafe_allow_h
 
 options = st.sidebar.selectbox(label="Select Operation", options=["None", "Live Test", "HeadShot Test", "Full Body Pics Test"])
 
+
 def main():
   if options != "None":
     if options == "Live Test":
@@ -76,7 +77,7 @@ def main():
                 st.markdown(f"Prediction: {'FaceMask On' if predictions[0][0] > predictions[0][1] else 'FaceMask Off'}")
                 st.image(image=image, caption="Model Ouput")
         
-          if options == "Full Body Pics Test":
+        if options == "Full Body Pics Test":
               picture = st.file_uploader("Upload Picture", ["png ", "jpg"], accept_multiple_files=False)
               if picture is not None:
                 image = cv2.cvtColor(cv2.imdecode(np.frombuffer(picture.read(), np.uint8), 1), cv2.COLOR_BGR2RGB)
@@ -85,7 +86,7 @@ def main():
                 face_detector.setInput(blob=Blob)
                 detected_faces = face_detector.forward()
                     
-                  for i in range(detected_faces.shape[2]):
+                for i in range(detected_faces.shape[2]):
                     confidence = detected_faces[0, 0, i, 2]
                     if confidence > 0.5:
                       x1, y1, x2, y2 = detected_faces[0, 0, i, 3:7]
@@ -106,7 +107,7 @@ def main():
                       cv2.rectangle(image, (startx, starty), (endx, endy), color, 2)
                       cv2.putText(image, f"{predicted_class}", (startx, starty-40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
                     
-                  st.image(image=image, caption="Output")
+                st.image(image=image, caption="Output")
 
 # import av
 # import cv2
