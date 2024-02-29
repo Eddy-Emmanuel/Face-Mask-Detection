@@ -77,8 +77,8 @@ if options != "None":
         webrtc_streamer(
                         key="sample",
                          video_frame_callback=callback_,
-                         media_stream_constraints={"video": True, "audio": False},
-                         async_processing=True,
+                         # media_stream_constraints={"video": True, "audio": False},
+                         # async_processing=True,
                                 )
 
   
