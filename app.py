@@ -53,18 +53,14 @@ options = st.sidebar.selectbox(label="Select Operation", options=["None", "Live 
 def main():
   if options != "None":
     if options == "Live Test":
-        stream = webrtc_streamer(
-                                    key="barcode-detection",
-                                    mode=WebRtcMode.SENDRECV,
-                                    video_processor_factory=VideoDisplay,
-                                    media_stream_constraints={"video": True, "audio": False},
-                                    async_processing=True,
+        webrtc_streamer(
+                         key="barcode-detection",
+                         mode=WebRtcMode.SENDRECV,
+                         video_processor_factory=VideoDisplay,
+                          media_stream_constraints={"video": True, "audio": False},
+                          async_processing=True,
                                     )
 
-    while True:
-        if stream.video_processor.barcode_val != False:
-            barcode = stream.video_processor.barcode_val
-            del stream
     
   
         if options == "HeadShot Test":
