@@ -13,8 +13,7 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
 def Run_Live_Test(source):
     loop = True
     # cam = cv2.VideoCapture(0)
-    st.cache_data
-    # st.cache_resource
+  
     def get_cap():
         return cv2.VideoCapture(0)
     cam = get_cap()
