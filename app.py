@@ -108,7 +108,7 @@ st.write("Hello, world")
 webrtc_streamer(key="example")
 
 
-webrtc_streamer(key="example", video_frame_callback=callback)
+# webrtc_streamer(key="example", video_frame_callback=callback)
 
 # if __name__ == "__main__":
 #   main()
