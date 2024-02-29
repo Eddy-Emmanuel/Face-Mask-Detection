@@ -121,8 +121,8 @@ def callback(frame):
 
 webrtc_streamer(key="example", video_frame_callback=callback)
 
-if __name__ == "__main__":
-  main()
+# if __name__ == "__main__":
+#   main()
 
 
 
