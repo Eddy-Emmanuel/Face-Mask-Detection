@@ -12,6 +12,17 @@ classifier = load_model("mobilenetv2.h5") # Step 1
 face_detector = cv2.dnn.readNet(model="deploy.prototxt",
                                 config="res10_300x300_ssd_iter_140000.caffemodel") # Step 2
 
+import os
+from twilio.rest import Client
+
+# Find your Account SID and Auth Token at twilio.com/console
+# and set the environment variables. See http://twil.io/secure
+account_sid = os.environ['TWILIO_ACCOUNT_SID']
+auth_token = os.environ['TWILIO_AUTH_TOKEN']
+client = Client(account_sid, auth_token)
+
+token = client.tokens.create()
+
 class VideoDisplay(VideoProcessorBase):
       def CALLBACK(self, cam: av.VideoFrame) -> av.VideoFrame:
           frame = cam.to_ndarray(format="bgr24")
@@ -57,6 +68,9 @@ def main():
                          key="barcode-detection",
                          mode=WebRtcMode.SENDRECV,
                          video_processor_factory=VideoDisplay,
+                          rtc_configuration={
+                                            "iceServers": token.ice_servers
+                                            }
                           media_stream_constraints={"video": True, "audio": False},
                           async_processing=True,
                                     )
