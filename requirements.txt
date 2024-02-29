@@ -5,3 +5,4 @@ keras==2.15.0
 pillow==10.2.0
 opencv-python-headless==4.9.0.80
 streamlit-webrtc==0.47.1
+pyzbar==0.1.9
