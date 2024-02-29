@@ -12,7 +12,12 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
 
 def Run_Live_Test(source):
     loop = True
-    cam = cv2.VideoCapture(0)
+    # cam = cv2.VideoCapture(0)
+    @st.cache(allow_output_mutation=True)
+    def get_cap():
+        return cv2.VideoCapture(0)
+    cam = get_cap()
+    frameST = st.empty()
     if cam.isOpened():
         while loop:
             _, frame = cam.read() # Step 4
@@ -62,7 +67,8 @@ def Run_Live_Test(source):
                     cv2.rectangle(frame, (PRED_LOCATIONS[0], PRED_LOCATIONS[1]), (PRED_LOCATIONS[2], PRED_LOCATIONS[3]), color, 2)
                     cv2.putText(frame, f"{predicted_class}: {MODEL_CONFIDENCE:.2f}", (PRED_LOCATIONS[0], PRED_LOCATIONS[1]-40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
                 
-                cv2.imshow("Camera", frame)
+                # cv2.imshow("Camera", frame)
+                frameST.image(frame, channels="BGR")
 
                 if cv2.waitKey(1) == ord("q"):
                     loop = False
