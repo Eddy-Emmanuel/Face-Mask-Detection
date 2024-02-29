@@ -41,7 +41,7 @@ class VideoDisplay(VideoProcessorBase):
                   cv2.putText(frame, f"{predicted_class}: {max(with_facemask, without_facemask):.2f}", 
                               (startX, startY - 40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
       
-          return return av.VideoFrame.from_ndarray(frame, format="bgr24")
+          return av.VideoFrame.from_ndarray(frame, format="bgr24")
 
 
 
