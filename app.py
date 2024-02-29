@@ -13,60 +13,36 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
                                 config="res10_300x300_ssd_iter_140000.caffemodel") # Step 2
 
 
-def CALLBACK(cam:av.VideoFrame)-> av.VideoFrame:
-  
+def CALLBACK(cam: av.VideoFrame) -> av.VideoFrame:
     frame = cam.to_ndarray(format="bgr24")
-  
-    while True:
-        h, w, _ = frame.shape # Step 5
-        blob = cv2.dnn.blobFromImage(frame, scalefactor=1.0, size=(300, 300), mean=(104, 177, 123)) # # Step 6
-        face_detector.setInput(blob=blob) # Step 7
-        detected_faces = face_detector.forward() # Step 8 -> Detect Faces
 
-        preprocessed_face = []
-        face_loc = []
+    h, w, _ = frame.shape
+    blob = cv2.dnn.blobFromImage(frame, scalefactor=1.0, size=(300, 300), mean=(104, 177, 123))
+    face_detector.setInput(blob=blob)
+    detected_faces = face_detector.forward()
 
-        for i in range(detected_faces.shape[2]): # Step 9
-            confidence = detected_faces[0, 0, i, 2] # Step 10
+    for i in range(detected_faces.shape[2]):
+        confidence = detected_faces[0, 0, i, 2]
 
-            if confidence > 0.5:
-                x1, y1, x2, y2 = detected_faces[0, 0, i, 3:7] # Step 11
-                    # Step 12
-                startX, endX = int(x1*w), int(x2*w)
-                startY, endY = int(y1*h), int(y2*h)
+        if confidence > 0.5:
+            x1, y1, x2, y2 = detected_faces[0, 0, i, 3:7]
+            startX, endX = max(0, int(x1 * w)), min(w - 1, int(x2 * w))
+            startY, endY = max(0, int(y1 * h)), min(h - 1, int(y2 * h))
 
-                startX, endX = max(0, startX), min(w-1, endX)
-                startY, endY = max(0, startY), min(h-1, endY)
+            face = frame[startY:endY, startX:endX]
+            rgb_face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
+            prep_face = mobilenet_v2.preprocess_input(cv2.resize(rgb_face, (224, 224)))
+                
+            with_facemask, without_facemask = classifier.predict(np.expand_dims(prep_face, axis=0))[0]
+            color = (0, 0, 255) if without_facemask > with_facemask else (0, 255, 0)
+            predicted_class = "Facemask on" if with_facemask > without_facemask else "Facemask off"
 
-                    # Step 13
-                face = frame[startY:endY, startX:endX]
-                rgb_face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
-                prep_face = mobilenet_v2.preprocess_input(cv2.resize(rgb_face, (224, 224)))
-                preprocessed_face.append(prep_face)
-                face_loc.append([startX, startY, endX, endY])
+            cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+            cv2.putText(frame, f"{predicted_class}: {max(with_facemask, without_facemask):.2f}", 
+                        (startX, startY - 40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
 
-            else:
-                continue
-            
+    return av.VideoFrame.from_ndarray(frame, format="bgr24")
 
-        try:
-            if len(face) != 0:
-                predictions = classifier.predict(np.array(preprocessed_face))
-
-            for (PREDICTIONS, PRED_LOCATIONS) in zip(predictions, face_loc):
-                with_facemask, without_facemask = PREDICTIONS
-
-                color = (0, 0, 255) if without_facemask > with_facemask else (0, 255, 0)
-                predicted_class = "Facemask on" if with_facemask > without_facemask else "Facemask off"
-                MODEL_CONFIDENCE = with_facemask if with_facemask > without_facemask else without_facemask
-
-                cv2.rectangle(frame, (PRED_LOCATIONS[0], PRED_LOCATIONS[1]), (PRED_LOCATIONS[2], PRED_LOCATIONS[3]), color, 2)
-                cv2.putText(frame, f"{predicted_class}: {MODEL_CONFIDENCE:.2f}", (PRED_LOCATIONS[0], PRED_LOCATIONS[1]-40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
-        except:
-           continue
-          
-
-    return av.VideoFrame.from_ndarray(frame, format="brg24")
 
 
 st.markdown("<h1><center>Face Mask Detection 😎<center/><h1/>", unsafe_allow_html=True)
