@@ -13,7 +13,7 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
                                 config="res10_300x300_ssd_iter_140000.caffemodel") # Step 2
 
 
-def callback_(cam.VideoFrame)-> av.VideoFrame:
+def callback_(cam:av.VideoFrame)-> av.VideoFrame:
     frame = cam.to_ndarray(format="bgr24")
   
     while True:
