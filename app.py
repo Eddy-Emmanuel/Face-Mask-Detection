@@ -13,9 +13,8 @@ face_detector = cv2.dnn.readNet(model="deploy.prototxt",
                                 config="res10_300x300_ssd_iter_140000.caffemodel") # Step 2
 
 
-def callback_(cam:av.VideoFrame)-> av.VideoFrame:
+def CALLBACK(cam:av.VideoFrame)-> av.VideoFrame:
     frame = cam.to_ndarray(format="bgr24")
-  
     while True:
         h, w, _ = frame.shape # Step 5
         blob = cv2.dnn.blobFromImage(frame, scalefactor=1.0, size=(300, 300), mean=(104, 177, 123)) # # Step 6
@@ -74,12 +73,8 @@ options = st.sidebar.selectbox(label="Select Operation", options=["None", "Live 
 
 if options != "None":
     if options == "Live Test":
-        webrtc_streamer(
-                        key="sample",
-                         video_frame_callback=callback_,
-                         # media_stream_constraints={"video": True, "audio": False},
-                         # async_processing=True,
-                                )
+        webrtc_streamer(key="sample",
+                        video_frame_callback=CALLBACK)
 
   
 
