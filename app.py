@@ -70,7 +70,7 @@ def main():
                          video_processor_factory=VideoDisplay,
                           rtc_configuration={
                                             "iceServers": token.ice_servers
-                                            }
+                                            },
                           media_stream_constraints={"video": True, "audio": False},
                           async_processing=True,
                                     )
