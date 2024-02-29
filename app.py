@@ -12,7 +12,7 @@ classifier = load_model("mobilenetv2.h5") # Step 1
 face_detector = cv2.dnn.readNet(model="deploy.prototxt",
                                 config="res10_300x300_ssd_iter_140000.caffemodel") # Step 2
 
-class VideoDisplay(VideoTransformerBase):
+class VideoDisplay(VideoProcessorBase):
       def CALLBACK(self, cam: av.VideoFrame) -> av.VideoFrame:
           frame = cam.to_ndarray(format="bgr24")
       
