@@ -6,7 +6,6 @@ from keras.models import load_model
 from keras.applications import mobilenet_v2
 from keras.preprocessing.image import img_to_array
 from streamlit_webrtc import webrtc_streamer,  VideoTransformerBase
-import av
 
 classifier = load_model("mobilenetv2.h5") # Step 1
 face_detector = cv2.dnn.readNet(model="deploy.prototxt",
