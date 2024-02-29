@@ -61,6 +61,8 @@ def callback_(cam:av.VideoFrame)-> av.VideoFrame:
 
                 cv2.rectangle(frame, (PRED_LOCATIONS[0], PRED_LOCATIONS[1]), (PRED_LOCATIONS[2], PRED_LOCATIONS[3]), color, 2)
                 cv2.putText(frame, f"{predicted_class}: {MODEL_CONFIDENCE:.2f}", (PRED_LOCATIONS[0], PRED_LOCATIONS[1]-40), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 2)
+        except:
+           continue
           
 
     return av.VideoFrame.from_ndarray(frame, format="brg24")
