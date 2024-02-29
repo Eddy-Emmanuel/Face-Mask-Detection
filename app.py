@@ -5,7 +5,7 @@ import streamlit as st
 from keras.models import load_model
 from keras.applications import mobilenet_v2
 from keras.preprocessing.image import img_to_array
-from streamlit_webrtc import webrtc_streamer, WebRtcMode
+from streamlit_webrtc import webrtc_streamer
 import av
 
 classifier = load_model("mobilenetv2.h5") # Step 1
@@ -75,8 +75,7 @@ options = st.sidebar.selectbox(label="Select Operation", options=["None", "Live 
 if options != "None":
     if options == "Live Test":
         webrtc_streamer(
-                        key="object-detection",
-                        mode=WebRtcMode.SENDRECV,
+                        key="sample",
                          video_frame_callback=callback_,
                          media_stream_constraints={"video": True, "audio": False},
                          async_processing=True,
