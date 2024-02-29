@@ -55,7 +55,7 @@ def main():
         stream = webrtc_streamer(
                                     key="barcode-detection",
                                     mode=WebRtcMode.SENDRECV,
-                                    video_processor_factory=VideoTransformerBase,
+                                    video_processor_factory=VideoDisplay,
                                     media_stream_constraints={"video": True, "audio": False},
                                     async_processing=True,
                                     )
